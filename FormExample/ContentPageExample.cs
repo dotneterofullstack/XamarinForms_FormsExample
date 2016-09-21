@@ -31,12 +31,19 @@ namespace FormExample
 
 			button.Clicked += Button_Clicked;
 
+			Entry entry = new Entry { 
+				Placeholder = "username",
+				VerticalOptions = LayoutOptions.Center,
+				Keyboard = Keyboard.Text                               
+			};
+
 			StackLayout stackLayout = new StackLayout
 			{
 				Children = {
 					labelLarge,
 					labelSmall,
-					button
+					button,
+					entry
 				},
 				HeightRequest = 1500
 			};
