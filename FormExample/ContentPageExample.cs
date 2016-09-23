@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 namespace FormExample
 {
 	public class ContentPageExample : ContentPage
@@ -37,18 +38,51 @@ namespace FormExample
 				Keyboard = Keyboard.Text                               
 			};
 
+			BoxView boxView = new BoxView { 
+				Color = Color.Silver,
+				WidthRequest = 150,
+				HeightRequest = 150,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Fill
+			};
+
+			Image image = new Image {
+				Source = "monkey.jpg",
+				Aspect = Aspect.AspectFit,
+				HorizontalOptions = LayoutOptions.End,
+				VerticalOptions = LayoutOptions.Fill
+			};
+
+			var tapRecognizer = new TapGestureRecognizer();
+			tapRecognizer.Tapped += async (sender, e) => {
+				image.Opacity = 0.5;
+				await Task.Delay(200);
+				image.Opacity = 1;
+			};
+
+			image.GestureRecognizers.Add(tapRecognizer);
+
 			StackLayout stackLayout = new StackLayout
 			{
 				Children = {
 					labelLarge,
 					labelSmall,
 					button,
-					entry
+					entry,
+					boxView,
+					image
 				},
 				HeightRequest = 1500
 			};
 
-			this.Content = stackLayout;
+			ScrollView scrollView = new ScrollView
+			{
+				VerticalOptions = LayoutOptions.FillAndExpand,
+				Content = stackLayout
+			};
+
+			this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+			this.Content = scrollView;
 		}
 
 		void Button_Clicked(object sender, EventArgs e)
